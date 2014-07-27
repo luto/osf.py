@@ -34,6 +34,7 @@ def test_line_basic():
     assert result.find(osf.grammar.Link)[1].string == 'foo'
 
     tags = result.find_all(osf.grammar.Tag)
+    assert len(tags) == 2
     assert tags[0][1].string == 'bla'
     assert tags[1][1].string == 'foo'
 
@@ -63,6 +64,7 @@ def test_line_no_link_tag():
     result = osf.parse_line("01:02:03 asd bla #tag1 #tag2")
 
     tags = result.find_all(osf.grammar.Tag)
+    assert len(tags) == 2
     assert tags[0][1].string == 'tag1'
     assert tags[1][1].string == 'tag2'
 
