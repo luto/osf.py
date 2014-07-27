@@ -1,0 +1,14 @@
+# IDEs
+.idea
+
+# virtualenv
+venv
+__pycache__
+
+# build
+dist
+build
+hoerapi.egg-info
+
+# testing
+.coverage
