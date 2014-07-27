@@ -5,4 +5,5 @@ class OSFLine():
         self.text = ""
         self.link = None
         self.tags = []
+        self.indentation = 0
 

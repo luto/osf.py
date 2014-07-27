@@ -64,6 +64,10 @@ def objectify_line_tags(line, osf_line):
     osf_line.tags = f7([tag[1].string for tag in tags])
 
 
+def objectify_line_indentation(line, osf_line):
+    osf_line.indentation = len(line.find_all(Indentation))
+
+
 def objectify_line(line, time_offset=0):
     osf_line = OSFLine()
 
@@ -71,6 +75,7 @@ def objectify_line(line, time_offset=0):
     objectify_line_text(line, osf_line)
     objectify_line_link(line, osf_line)
     objectify_line_tags(line, osf_line)
+    objectify_line_indentation(line, osf_line)
 
     return osf_line
 
