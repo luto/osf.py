@@ -59,5 +59,19 @@ class Indentation (Grammar):
     grammar = ('-',)
 
 
+class MuchSpace (Grammar):
+    grammar = (ONE_OR_MORE(' '),)
+    grammar_collapse = True
+
+
+class OMuchSpace (Grammar):
+    grammar = (ZERO_OR_MORE(' '),)
+    grammar_collapse = True
+
+
 class Line (Grammar):
-    grammar = (ZERO_OR_MORE(Indentation), OPTIONAL(Time, ' '), Text, OPTIONAL(' ', Link), ZERO_OR_MORE(' ', Tag))
+    grammar = (ZERO_OR_MORE(Indentation), OMuchSpace,
+               OPTIONAL(Time, MuchSpace),
+               OMuchSpace, Text, OMuchSpace,
+               OPTIONAL(MuchSpace, Link),
+               ZERO_OR_MORE(MuchSpace, Tag))
