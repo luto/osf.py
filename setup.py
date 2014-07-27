@@ -9,5 +9,6 @@ setup(name='osf',
       url='https://github.com/luto/osf.py',
       packages=['osf'],
       install_requires=[
+          'modgrammar'
       ],
      )
