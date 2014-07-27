@@ -66,9 +66,10 @@ def objectify_lines(lines):
 
     time_offset = 0
 
-    unix_time = lines[0].find(UnixTime)
+    if not isinstance(lines, ParseError):
+        unix_time = lines[0].get(UnixTime)
 
-    if unix_time:
-        time_offset = int(unix_time.string)
+        if unix_time:
+            time_offset = int(unix_time.string)
 
     return [line if isinstance(line, modgrammar.ParseError) else objectify_line(line, time_offset) for line in lines]
