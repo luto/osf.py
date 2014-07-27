@@ -67,6 +67,13 @@ def test_line_indentation():
     assert len(result.find_all(osf.grammar.Indentation)) == 2
 
 
+def test_line_link_no_space():
+    result = osf.parse_line("01:02:03 asd bla<foo>")
+
+    assert result.find(osf.grammar.HHMMSSTime).string == '01:02:03'
+    assert result.find(osf.grammar.Text).string == 'asd bla'
+    assert result.find(osf.grammar.Link)[1].string == 'foo'
+
 def test_line_no_link():
     result = osf.parse_line("01:02:03 asd bla")
 
