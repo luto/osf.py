@@ -46,6 +46,12 @@ def test_line_no_tags():
     assert result.find(osf.grammar.Link)[1].string == 'foo'
 
 
+def test_line_indentation():
+    result = osf.parse_line("-- a")
+
+    assert len(result.find_all(osf.grammar.Indentation)) == 2
+
+
 def test_line_no_link():
     result = osf.parse_line("01:02:03 asd bla")
 
