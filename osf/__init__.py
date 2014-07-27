@@ -17,11 +17,13 @@ def parse_lines(lines):
     for line in lines:
         num += 1
 
+        lline = None
+
         try:
             lline = parse_line(line)
         except modgrammar.ParseError as e:
             e.line = num
-            raise e
+            yield e
 
         if lline:
             yield lline
@@ -103,4 +105,4 @@ def objectify_lines(lines):
     if unix_time:
         time_offset = int(unix_time.string)
 
-    return [objectify_line(line, time_offset) for line in lines]
+    return [line if isinstance(line, modgrammar.ParseError) else objectify_line(line, time_offset) for line in lines]

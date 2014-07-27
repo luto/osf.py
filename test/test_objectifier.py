@@ -1,5 +1,6 @@
 import pytest
 import osf
+import modgrammar
 
 
 def parse_n_objectify(str):
@@ -49,3 +50,11 @@ def test_full():
     assert result.text == "asd"
     assert result.link == "bla"
     assert result.tags == ['quote', 'c']
+
+
+def test_error():
+    lines = osf.parse_lines(["1000001111 A", "asd#sdsd"])
+    result = osf.objectify_lines(lines)
+
+    assert isinstance(result[0], osf.OSFLine)
+    assert isinstance(result[1], modgrammar.ParseError)
