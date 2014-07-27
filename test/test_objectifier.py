@@ -65,3 +65,11 @@ def test_empty():
 
     assert len(result) == 0
 
+
+def test_invalid_first():
+    header, lines = osf.parse_lines(['asd#asdasd'])
+    result = osf.objectify_lines(lines)
+
+    assert len(result) == 1
+    assert isinstance(result[0], modgrammar.ParseError)
+
