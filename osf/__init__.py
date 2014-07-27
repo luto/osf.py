@@ -5,11 +5,16 @@ LineParser = Line.parser()
 
 
 def parse_line(line):
+    line = line.strip()
+    if not line: return None
     return LineParser.parse_string(line)
 
 
 def parse_lines(lines):
-    return [parse_line(line) for line in lines]
+    for line in lines:
+        lline = parse_line(line)
+        if lline:
+            yield lline
 
 
 def hhmmss_to_seconds(hh, mm, ss, hundredths):
