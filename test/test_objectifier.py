@@ -11,6 +11,14 @@ def parse_n_objectify(str):
 
 def test_unix_time():
     line1 = osf.parse_line("1000001111 A")
+
+    result = osf.objectify_line(line1)
+
+    assert result.time == 1000001111
+
+
+def test_unix_time_offset():
+    line1 = osf.parse_line("1000001111 A")
     line2 = osf.parse_line("1000001115 B")
 
     result = osf.objectify_lines([line1, line2])
