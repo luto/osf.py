@@ -88,3 +88,11 @@ def test_line_tag_escape():
 
     assert result.find(osf.grammar.HHMMSSTime).string == '01:02:03'
     assert result.find(osf.grammar.Text).string == r'asd \#bla'
+
+
+def test_lines():
+    result = list(osf.parse_lines(['A', '   ', 'B']))
+
+    assert len(result) == 2
+    assert result[0].find(osf.grammar.Text).string == 'A'
+    assert result[1].find(osf.grammar.Text).string == 'B'
