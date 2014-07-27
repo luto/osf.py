@@ -1,6 +1,7 @@
 import pytest
 import osf
 import osf.grammar
+import modgrammar
 
 
 def test_time_hhmmss():
@@ -95,6 +96,12 @@ def test_line_tag_escape():
 
     assert result.find(osf.grammar.HHMMSSTime).string == '01:02:03'
     assert result.find(osf.grammar.Text).string == r'asd \#bla'
+
+
+def test_line_error():
+    header, lines = osf.parse_lines([r"adsad#asd<<sadsd"])
+
+    assert isinstance(lines[0], modgrammar.ParseError)
 
 
 def test_lines():
