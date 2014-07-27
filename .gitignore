@@ -8,7 +8,7 @@ __pycache__
 # build
 dist
 build
-hoerapi.egg-info
+osf.egg-info
 
 # testing
 .coverage
