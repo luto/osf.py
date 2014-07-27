@@ -99,11 +99,10 @@ def test_line_tag_escape():
 
 def test_lines():
     header, lines = osf.parse_lines(['A', '   ', 'B'])
-    result = list(lines)
 
-    assert len(result) == 2
-    assert result[0].find(osf.grammar.Text).string == 'A'
-    assert result[1].find(osf.grammar.Text).string == 'B'
+    assert len(lines) == 2
+    assert lines[0].find(osf.grammar.Text).string == 'A'
+    assert lines[1].find(osf.grammar.Text).string == 'B'
 
 
 def test_header():
