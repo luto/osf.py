@@ -43,7 +43,7 @@ class Text(Terminal):
     #  # if there is a \ right before it
     #  < if there is a \ right before it
     #  no space at the end (" foo asd " => " foo asd")
-    grammar = (RE(r'( ?(\\#|\\<|[^#< ])+)+'),)
+    grammar = (RE(r'( *(\\#|\\<|[^#< ])+)+'),)
 
 
 class Link (Grammar):
@@ -73,5 +73,5 @@ class Line (Grammar):
     grammar = (ZERO_OR_MORE(Indentation), OMuchSpace,
                OPTIONAL(Time, MuchSpace),
                OMuchSpace, Text, OMuchSpace,
-               OPTIONAL(MuchSpace, Link),
+               OPTIONAL(Link),
                ZERO_OR_MORE(MuchSpace, Tag))
