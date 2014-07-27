@@ -1,4 +1,5 @@
 from .grammar import *
+from .classes import *
 
 LineParser = Line.parser()
 
@@ -9,10 +10,6 @@ def parse_line(line):
 
 def parse_lines(lines):
     return [parse_line(line) for line in lines]
-
-
-class OSFLine():
-    pass
 
 
 def hhmmss_to_seconds(hh, mm, ss, hundredths):
