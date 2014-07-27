@@ -27,7 +27,7 @@ def test_time_unix():
 
 
 def test_line_basic():
-    result = osf.parse_line("01:02:03 asd bla <foo> #bla #foo")
+    result = osf.parse_line("01:02:03   asd bla      <foo>   #bla     #foo")
 
     assert result.find(osf.grammar.HHMMSSTime).string == '01:02:03'
     assert result.find(osf.grammar.Text).string == 'asd bla'
@@ -37,6 +37,20 @@ def test_line_basic():
     assert len(tags) == 2
     assert tags[0][1].string == 'bla'
     assert tags[1][1].string == 'foo'
+
+
+def test_line_real():
+    result = osf.parse_line("- 02:24:20  The Computer (How It Works)  <http://www.amazon.com/dp/072140619X/>   #shopping")
+
+    assert len(result.find_all(osf.grammar.Indentation)) == 1
+
+    assert result.find(osf.grammar.HHMMSSTime).string == '02:24:20'
+    assert result.find(osf.grammar.Text).string == 'The Computer (How It Works)'
+    assert result.find(osf.grammar.Link)[1].string == 'http://www.amazon.com/dp/072140619X/'
+
+    tags = result.find_all(osf.grammar.Tag)
+    assert len(tags) == 1
+    assert tags[0][1].string == 'shopping'
 
 
 def test_line_no_tags():
