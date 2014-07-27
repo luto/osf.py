@@ -19,7 +19,7 @@ $ pip install -e .
 
 ## Tests
 ```
-$ py.test
+$ py.test --cov-config .coveragerc --cov osf --cov-report html test
 ```
 
 ## Usage

@@ -12,3 +12,4 @@ osf.egg-info
 
 # testing
 .coverage
+coverage_html_report
