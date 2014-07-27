@@ -1,6 +1,12 @@
 from .timeutils import seconds_to_hhmmss
 
 
+class Header:
+    def __init__(self):
+        self.kv = {}
+        self.v = []
+
+
 class OSFLine():
     def __init__(self):
         self.time = None

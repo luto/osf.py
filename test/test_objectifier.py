@@ -53,7 +53,7 @@ def test_full():
 
 
 def test_error():
-    lines = osf.parse_lines(["1000001111 A", "asd#sdsd"])
+    header, lines = osf.parse_lines(["1000001111 A", "asd#sdsd"])
     result = osf.objectify_lines(lines)
 
     assert isinstance(result[0], osf.OSFLine)

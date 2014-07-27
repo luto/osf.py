@@ -98,8 +98,58 @@ def test_line_tag_escape():
 
 
 def test_lines():
-    result = list(osf.parse_lines(['A', '   ', 'B']))
+    header, lines = osf.parse_lines(['A', '   ', 'B'])
+    result = list(lines)
 
     assert len(result) == 2
     assert result[0].find(osf.grammar.Text).string == 'A'
     assert result[1].find(osf.grammar.Text).string == 'B'
+
+
+def test_header():
+    start, end, header = osf.parse_header([
+        'HEADER',      # 0
+        'foo',         # 1
+        'bar1: foo1',  # 2
+        'bar2:foo2',   # 3
+        '',            # 4
+        '/HEADER',     # 5
+    ])
+
+    assert start == 0
+    assert end == 5
+    assert len(header.v) == 1
+    assert header.v[0] == 'foo'
+    assert len(header.kv) == 2
+    assert header.kv['bar1'] == 'foo1'
+    assert header.kv['bar2'] == 'foo2'
+
+
+def test_header_no_end():
+    start, end, header = osf.parse_header([
+        'HEADER',      # 0
+        'foo',         # 1
+        'bar1: foo1',  # 2
+        'bar2:foo2',   # 3
+    ])
+
+    assert start == -1
+    assert end == -1
+    assert header is None
+
+
+def test_header_with_line():
+    header, lines = osf.parse_lines([
+        'HEADER',
+        'foo',
+        '/HEADER',
+        'A'
+    ])
+
+    assert header
+    assert len(header.v) == 1
+    assert header.v[0] == 'foo'
+    assert len(lines) == 1
+    assert lines[0].find(osf.grammar.Text).string == 'A'
+
+

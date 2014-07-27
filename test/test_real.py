@@ -8,7 +8,8 @@ def do_real_test(file):
     lines = f.readlines()
     f.close()
 
-    result = osf.objectify_lines(osf.parse_lines(lines))
+    header, lines = osf.parse_lines(lines)
+    result = osf.objectify_lines(lines)
     #print("\n".join([str(line) for line in result]))
 
 
