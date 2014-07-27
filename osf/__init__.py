@@ -94,6 +94,8 @@ def objectify_lines(lines):
     if not lines:
         return []
 
+    lines = list(lines)
+
     time_offset = 0
 
     unix_time = lines[0].find(UnixTime)
