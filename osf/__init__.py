@@ -1,5 +1,6 @@
 from .grammar import *
 from .classes import *
+import modgrammar
 
 LineParser = Line.parser()
 
@@ -11,8 +12,17 @@ def parse_line(line):
 
 
 def parse_lines(lines):
+    num = -1
+
     for line in lines:
-        lline = parse_line(line)
+        num += 1
+
+        try:
+            lline = parse_line(line)
+        except modgrammar.ParseError as e:
+            e.line = num
+            raise e
+
         if lline:
             yield lline
 
