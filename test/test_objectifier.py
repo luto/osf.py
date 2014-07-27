@@ -58,3 +58,10 @@ def test_error():
 
     assert isinstance(result[0], osf.OSFLine)
     assert isinstance(result[1], modgrammar.ParseError)
+
+
+def test_empty():
+    result = osf.objectify_lines([])
+
+    assert len(result) == 0
+
