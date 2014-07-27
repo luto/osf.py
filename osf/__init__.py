@@ -1,5 +1,6 @@
 from .grammar import *
 from .classes import *
+from .timeutils import hhmmss_to_seconds
 import modgrammar
 
 LineParser = Line.parser()
@@ -27,12 +28,6 @@ def parse_lines(lines):
 
         if lline:
             yield lline
-
-
-def hhmmss_to_seconds(hh, mm, ss, hundredths):
-    val = int(ss) + int(mm) * 60 + int(hh) * 60 * 60
-    if hundredths: val += int(hundredths) / 1000
-    return val
 
 
 def objectify_line_time(line, osf_line, time_offset=0):
