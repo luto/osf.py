@@ -1,4 +1,4 @@
-from .timeutils import seconds_to_hhmmss
+from .timeutils import milliseconds_to_hhmmss
 
 
 class Header:
@@ -20,7 +20,7 @@ class OSFLine():
         if self.indentation:
             parts.append('-' * self.indentation)
         if self.time is not None:
-            parts.append(seconds_to_hhmmss(self.time))
+            parts.append(milliseconds_to_hhmmss(self.time))
         parts.append(self.text)
         if self.link:
             parts.append("<" + self.link + ">")

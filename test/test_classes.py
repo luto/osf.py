@@ -4,7 +4,7 @@ import osf.classes
 
 def test_str():
     line = osf.classes.OSFLine()
-    line.time = 5111
+    line.time = 5111000
     line.text = "foo"
     line.link = "http://google.com/"
     line.tags = ['asd', 'foo']
@@ -15,7 +15,7 @@ def test_str():
 
 def test_str_no_tags():
     line = osf.classes.OSFLine()
-    line.time = 5111
+    line.time = 5111000
     line.text = "foo"
     line.link = "http://google.com/"
     line.indentation = 5
@@ -25,7 +25,7 @@ def test_str_no_tags():
 
 def test_str_no_link():
     line = osf.classes.OSFLine()
-    line.time = 5111
+    line.time = 5111000
     line.text = "foo"
     line.indentation = 5
 
@@ -34,7 +34,7 @@ def test_str_no_link():
 
 def test_str_no_indentation():
     line = osf.classes.OSFLine()
-    line.time = 5111
+    line.time = 5111000
     line.text = "foo"
 
     assert str(line) == '01:25:11.000 foo'

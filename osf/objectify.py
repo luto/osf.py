@@ -1,5 +1,5 @@
 from .grammar import *
-from .timeutils import hhmmss_to_seconds
+from .timeutils import hhmmss_to_milliseconds
 from .classes import OSFLine
 
 
@@ -13,12 +13,12 @@ def objectify_line_time(line, osf_line, time_offset=0):
         if hun:
             hun_val = hun.string
 
-        osf_line.time = hhmmss_to_seconds(time_hhmmss.find(HHMMSSTimeHourComponent).string,
-                                          time_hhmmss.find(HHMMSSTimeMinuteComponent).string,
-                                          time_hhmmss.find(HHMMSSSecondComponent).string,
-                                          hun_val)
+        osf_line.time = hhmmss_to_milliseconds(time_hhmmss.find(HHMMSSTimeHourComponent).string,
+                                               time_hhmmss.find(HHMMSSTimeMinuteComponent).string,
+                                               time_hhmmss.find(HHMMSSSecondComponent).string,
+                                               hun_val)
     elif time_unix:
-        osf_line.time = int(time_unix.string) - time_offset
+        osf_line.time = (int(time_unix.string) - time_offset) * 1000
     else:
         osf_line.time = None
 
