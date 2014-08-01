@@ -14,7 +14,7 @@ def test_unix_time():
 
     result = osf.objectify_line(line1)
 
-    assert result.time == 1000001111
+    assert result.time == 1000001111000
 
 
 def test_unix_time_offset():
@@ -24,12 +24,12 @@ def test_unix_time_offset():
     result = osf.objectify_lines([line1, line2])
 
     assert result[0].time == 0
-    assert result[1].time == 4
+    assert result[1].time == 4000
 
 
 def test_hhmmss_time():
     result = parse_n_objectify("01:02:03.123 A")
-    assert result.time == 3723.123
+    assert result.time == 3723123
 
 
 def test_text():
@@ -54,7 +54,7 @@ def test_tags_unique():
 
 def test_full():
     result = parse_n_objectify("05:01:05.100 asd <bla> #quote #c")
-    assert result.time == 18065.100
+    assert result.time == 18065100
     assert result.text == "asd"
     assert result.link == "bla"
     assert result.tags == ['quote', 'c']
