@@ -1,4 +1,13 @@
 from .timeutils import milliseconds_to_hhmmss
+from modgrammar import ParseError
+
+
+class ParentlessNoteError(ParseError):
+    def __init__(self, line=-1):
+        self.line = line
+
+    def __str__(self):
+        return "Parentless note at line " + str(self.line)
 
 
 class Header:
@@ -13,13 +22,13 @@ class OSFLine():
         self.text = ""
         self.link = None
         self.tags = []
-        self.indentation = 0
+        self.notes = []
         self._line = -1
 
-    def __str__(self):
+    def osf(self, depth=0):
         parts = []
-        if self.indentation:
-            parts.append('-' * self.indentation)
+        if depth:
+            parts.append('-' * depth)
         if self.time is not None:
             parts.append(milliseconds_to_hhmmss(self.time))
         parts.append(self.text)

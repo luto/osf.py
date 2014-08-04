@@ -1,6 +1,6 @@
 from .grammar import *
 from .timeutils import hhmmss_to_milliseconds
-from .classes import OSFLine
+from .classes import OSFLine, ParentlessNoteError
 
 
 def objectify_line_time(line, osf_line, time_offset=0):
@@ -44,10 +44,6 @@ def objectify_line_tags(line, osf_line):
     osf_line.tags = f7([tag[1].string for tag in tags])
 
 
-def objectify_line_indentation(line, osf_line):
-    osf_line.indentation = len(line.find_all(Indentation))
-
-
 def objectify_line(line, time_offset=0):
     osf_line = OSFLine()
 
@@ -58,9 +54,8 @@ def objectify_line(line, time_offset=0):
     objectify_line_text(line, osf_line)
     objectify_line_link(line, osf_line)
     objectify_line_tags(line, osf_line)
-    objectify_line_indentation(line, osf_line)
 
-    return osf_line
+    return osf_line, len(line.find_all(Indentation))
 
 
 def objectify_lines(lines):
@@ -75,4 +70,60 @@ def objectify_lines(lines):
         if unix_time:
             time_offset = int(unix_time.string)
 
-    return [line if isinstance(line, modgrammar.ParseError) else objectify_line(line, time_offset) for line in lines]
+    # root notes (depth 0)
+    notes = []
+    # last known note at depth n
+    depth_note = {}
+    # maximum depth found (used to partially clear depth_note when needed)
+    max_depth = 0
+    # depth of the note before the current one
+    last_depth = 0
+
+    for line in lines:
+        if isinstance(line, modgrammar.ParseError):
+            notes.append(line)
+        else:
+            note, n_depth = objectify_line(line, time_offset)
+
+            if n_depth == 0:
+                # add root notes to the main list
+                notes.append(note)
+            else:
+                # find the nearest note above this one
+                # It is not possible to skip from D to B here, because
+                # B (depth 1) gets deleted once C (depth 0) is encountered.
+                #    A
+                #    - B
+                #    C
+                #    -- D
+                # instead, D will be added to C.
+                parent_depth = n_depth - 1
+
+                while parent_depth not in depth_note and parent_depth > -1:
+                    parent_depth -= 1
+
+                if parent_depth < 0:
+                    # we failed to find a proper parent..
+                    if not hasattr(note, '_line'):
+                        raise ParentlessNoteError()
+                    else:
+                        notes.append(ParentlessNoteError(note._line))
+                    continue
+                else:
+                    depth_note[parent_depth].notes.append(note)
+
+            depth_note[n_depth] = note
+
+            # if the current note is less deep then a last one clear all
+            # known notes deeper than this one. This is needed so a note
+            # is never attached to the wrong parent. See the example above.
+            if n_depth < last_depth:
+                for d in range(n_depth + 1, max_depth + 1):
+                    del depth_note[d]
+
+            if n_depth > max_depth:
+                max_depth = n_depth
+
+            last_depth = n_depth
+
+    return notes

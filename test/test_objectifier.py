@@ -5,15 +5,12 @@ import modgrammar
 
 def parse_n_objectify(str):
     line = osf.parse_line(str)
-    obj = osf.objectify_line(line)
+    obj, depth = osf.objectify_line(line)
     return obj
 
 
 def test_unix_time():
-    line1 = osf.parse_line("1000001111 A")
-
-    result = osf.objectify_line(line1)
-
+    result = parse_n_objectify("1000001111 A")
     assert result.time == 1000001111000
 
 
@@ -88,3 +85,30 @@ def test_invalid_first():
     assert len(result) == 1
     assert isinstance(result[0], modgrammar.ParseError)
 
+
+def test_subnotes():
+    result = osf.objectify_lines([
+        osf.parse_line("1000001111 A"),
+        osf.parse_line("- 1000001115 B"),
+        osf.parse_line("- 1000001115 C"),
+        osf.parse_line("-- 1000001115 D"),
+        osf.parse_line("1000001115 E"),
+        osf.parse_line("-- 1000001115 F"),
+    ])
+
+    assert len(result) == 2
+    assert result[0].text == "A"
+    assert len(result[0].notes) == 2  # A
+    assert result[0].notes[0].text == "B"
+    assert result[0].notes[1].text == "C"
+    assert len(result[0].notes[1].notes) == 1  # D
+    assert result[0].notes[1].notes[0].text == "D"
+    assert result[1].text == "E"
+
+
+def test_subnotes_first_sub():
+    header, lines = osf.parse_lines(["- 1000001115 A"])
+    result = osf.objectify_lines(lines)
+
+    assert len(result) == 1
+    assert isinstance(result[0], osf.ParentlessNoteError)
