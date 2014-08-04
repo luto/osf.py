@@ -81,5 +81,6 @@ def parse_lines(lines):
 
         if lline:
             llines.append(lline)
+            lline._line = num
 
     return header, llines

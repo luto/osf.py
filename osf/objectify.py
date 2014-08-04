@@ -51,6 +51,9 @@ def objectify_line_indentation(line, osf_line):
 def objectify_line(line, time_offset=0):
     osf_line = OSFLine()
 
+    if hasattr(line, '_line'):
+        osf_line._line = line._line
+
     objectify_line_time(line, osf_line, time_offset)
     objectify_line_text(line, osf_line)
     objectify_line_link(line, osf_line)

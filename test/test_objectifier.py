@@ -74,6 +74,13 @@ def test_empty():
     assert len(result) == 0
 
 
+def test_line_number():
+    header, lines = osf.parse_lines(["A", "  ", "B"])
+
+    assert lines[0]._line == 1
+    assert lines[1]._line == 3
+
+
 def test_invalid_first():
     header, lines = osf.parse_lines(['asd#asdasd'])
     result = osf.objectify_lines(lines)

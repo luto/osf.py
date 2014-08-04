@@ -14,6 +14,7 @@ class OSFLine():
         self.link = None
         self.tags = []
         self.indentation = 0
+        self._line = -1
 
     def __str__(self):
         parts = []
