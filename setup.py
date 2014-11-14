@@ -1,7 +1,7 @@
 from setuptools import setup
 
 setup(name='osf',
-      version='1.6',
+      version='1.7',
       description='OSF in python',
       author='luto',
       author_email='m@luto.at',
