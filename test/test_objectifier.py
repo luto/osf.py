@@ -106,6 +106,25 @@ def test_subnotes():
     assert result[1].text == "E"
 
 
+def test_subnotes_invalid():
+    result = osf.objectify_lines([
+        osf.parse_line("1000001111 A"),
+        osf.parse_line("-- 1000001115 B"),
+        osf.parse_line("--- 1000001115 C"),
+        osf.parse_line("- 1000001115 D"),
+        osf.parse_line("1000001111 E"),
+    ])
+
+    assert len(result) == 2
+    assert result[0].text == "A"
+    assert len(result[0].notes) == 2 # A
+    assert result[0].notes[0].text == "B"
+    assert len(result[0].notes[0].notes) == 1 # B
+    assert result[0].notes[0].notes[0].text == "C"
+    assert result[0].notes[1].text == "D"
+    assert result[1].text == "E"
+
+
 def test_subnotes_first_sub():
     header, lines = osf.parse_lines(["- 1000001115 A"])
     result = osf.objectify_lines(lines)

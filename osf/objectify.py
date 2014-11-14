@@ -119,7 +119,8 @@ def objectify_lines(lines):
             # is never attached to the wrong parent. See the example above.
             if n_depth < last_depth:
                 for d in range(n_depth + 1, max_depth + 1):
-                    del depth_note[d]
+                    if d in depth_note:
+                        del depth_note[d]
 
             if n_depth > max_depth:
                 max_depth = n_depth
