@@ -109,9 +109,9 @@ def test_lines():
 
     assert len(lines) == 2
     assert lines[0].find(osf.grammar.Text).string == 'A'
-    assert lines[0]._line == 0
+    assert lines[0]._line == 1
     assert lines[1].find(osf.grammar.Text).string == 'B'
-    assert lines[1]._line == 2
+    assert lines[1]._line == 3
 
 
 def test_header():

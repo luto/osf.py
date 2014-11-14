@@ -60,7 +60,7 @@ def parse_header(lines):
 
 
 def parse_lines(lines):
-    num = -1
+    num = 0
 
     llines = []
     h_start, h_end, header = parse_header(lines)
