@@ -5,9 +5,10 @@ from modgrammar import ParseError
 class ParentlessNoteError(ParseError):
     def __init__(self, line=-1):
         self.line = line
+        self.message = "parentless note"
 
     def __str__(self):
-        return "Parentless note at line " + str(self.line)
+        return self.message + " at line " + str(self.line)
 
 
 class Header:
