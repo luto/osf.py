@@ -41,11 +41,11 @@ def parse_header(lines):
 
         num += 1
 
-        if line == 'HEADER':
+        if line == 'HEADER' or line == 'HEAD':
             header_start = num
             header = Header()
             continue
-        elif line == '/HEADER' and header_start != -1:
+        elif (line == '/HEADER' or line == '/HEAD') and header_start != -1:
             header_end = num
             break
 
