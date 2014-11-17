@@ -23,7 +23,7 @@ def parse_header_line(line, header):
     if colon_pos == -1:
         header.v.append(line)
     else:
-        k = line[:colon_pos]
+        k = line[:colon_pos].lower()
         v = line[colon_pos + 1:].strip()
         header.kv[k] = v
 
