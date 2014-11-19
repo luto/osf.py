@@ -79,11 +79,20 @@ def objectify_lines(lines):
     # depth of the note before the current one
     last_depth = 0
 
+    inside_chapter = False
+
     for line in lines:
         if isinstance(line, modgrammar.ParseError):
             notes.append(line)
         else:
             note, n_depth = objectify_line(line, time_offset)
+
+            if inside_chapter and ('c' not in note.tags and 'chapter' not in note.tags):
+                n_depth += 1
+
+            if n_depth == 0 and ('c' in note.tags or 'chapter' in note.tags):
+                inside_chapter = True
+                depth_note[0] = note
 
             if n_depth == 0:
                 # add root notes to the main list
